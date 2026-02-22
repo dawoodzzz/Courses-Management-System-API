@@ -6,7 +6,15 @@ const httpStatus = require('../utils/httpStatusText.js')
 
 
 const getCourses = async (req, res) => {
-    const courses = await Course.find()
+
+    const query = req.query
+
+    const limit = query.limit || 10
+    const page = query.page || 1
+    const skip = (page - 1) * limit
+
+    const courses = await Course.find({}, { "__v": false }).limit(limit).skip(skip)
+
     res.json({ status: httpStatus.SUCCESS, data: courses })
 }
 
