@@ -14,7 +14,7 @@ const getUsers = asyncWarpper(async (req, res) => {
 })
 const register = asyncWarpper(async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body
-    const avatar = req.file.filename
+    const avatar = req.file.filename || null
     const user = await User.findOne({ email: email })
     if (user) {
         res.status(400).json({ status: httpStatus.FAIL, data: "email is already exists" })
