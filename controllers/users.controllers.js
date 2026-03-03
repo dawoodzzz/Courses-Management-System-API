@@ -22,10 +22,11 @@ const register = asyncWarpper(async (req, res) => {
     }
     const hashedPassword = await bycript.hash(password, 10)
     const newUser = new User({ firstName, lastName, email, password: hashedPassword, role, avatar: avatar })
-    const token = await generateJwt({ email: newUser.email, id: newUser._id, role: newUser.role, avatar: avatar })
+    const token = await generateJwt({ email: newUser.email, id: newUser._id, role: newUser.role })
     await newUser.save()
     res.status(201).json({ status: httpStatus.SUCCESS, data: newUser, token })
 })
+
 const login = asyncWarpper(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email: email })
